@@ -1,0 +1,17 @@
+- name: debug
+  ansible.builtin.debug:
+    msg: "hello debug {{vars}}"
+    verbosity: 0
+
+- name: add terraform vagrant rancher01/02/03 to inventory
+  add_host:
+    name: '{{item[0].name}}'
+    hostname: '{{item[0].name}}'
+    ansible_ssh_host: '{{item[0].hostname}}'
+    #ansible_ssh_private_key_file: '{{vagrant_private_key_file}}/{{item[0].name}}/virtualbox/private_key'
+    ansible_ssh_port: 22
+    ansible_user: root
+    groups:
+      - rke_cluster_rancher
+  loop: "{{terraform.outputs.rancher_hosts.value}}"
+  when: not ansible_check_mode

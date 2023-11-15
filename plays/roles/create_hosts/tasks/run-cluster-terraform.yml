@@ -1,0 +1,41 @@
+
+- name: debug
+  ansible.builtin.debug:
+    msg: "hello debug {{path_terraform}}"
+    verbosity: 0
+
+
+#- name: Move template terraform
+#  copy:
+#    src: "templates/terraform"
+#    dest: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/"
+#    mode: 0755
+#  changed_when: false
+
+- name: vérifie si le répertoire  projet existe
+  stat:
+    path: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster"
+  register: terraform_status
+
+
+
+- name: apply terraform code
+  terraform:
+    project_path: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster"
+    state: present
+  register: terraform
+  environment:
+    TF_VAR_amount: 3
+  when:
+  - not ansible_check_mode
+  - terraform_status.stat.exists
+
+- name: debug 2
+  ansible.builtin.debug:
+    msg: "deuxiemme hello {{index}} -  {{item[0].name}} - {{item[0].port}} "
+    verbosity: 0
+  loop: "{{terraform.outputs.cluster_hosts.value }}"
+  loop_control:
+    index_var: index
+  when: not ansible_check_mode
+
