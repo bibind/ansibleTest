@@ -1,6 +1,6 @@
 - name: task for OS debian
   ansible.builtin.debug:
-    msg: "hello debug OS {{ANSIBLE_CONNECTION_PATH}}"
+    msg: "hello debug OS {{PROJET}}"
     verbosity: 0
 
 - name: shell
