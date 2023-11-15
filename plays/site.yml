@@ -2,10 +2,10 @@
 #3c23fff47eb00d17b8c64b25fda77749df5b32150f5ccd68573252f14504265f
 # mdp jfrog : sjhdfshkjfs45dfdYt
 #- import_playbook: init_plateforme.yml
-- import_playbook: debug_test.yml
+#- import_playbook: debug_test.yml
 #- import_playbook: create_hosts.yml
 #- import_playbook: prepare_rancher_nodes.yml
 #- import_playbook: deploy_rancher.yml
-#- import_playbook: create_hosts_cluster.yml
-#- import_playbook: prepare_k8s_nodes.yml
-#- import_playbook: deploy_k8s_cluster.yml
+- import_playbook: create_hosts_cluster.yml
+- import_playbook: prepare_k8s_nodes.yml
+- import_playbook: deploy_k8s_cluster.yml

@@ -1,0 +1,11 @@
+rancher_failover_ip: []
+  # - vip: 192.168.1.1
+  #   router_id: 50
+  #   master: rancher01
+rancher_failover_ipv6: []
+
+certmanager_enabled: true
+rancher_letsencrypt_email: my@email.com # Only needed when certmanager_enabled is true
+
+rancher_hostname: "mybibindrancher.local" # Make sure this is set
+rancher_admin_password: "mys3cret" # local admin user account

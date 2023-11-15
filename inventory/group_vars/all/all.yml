@@ -1,0 +1,5 @@
+ansible_user: vagrant
+PROJET: Bibind
+PATH_REPERTOIR_PLATEFORM: /media/houssou/audrey-roch1
+PATH_REPERTOIR_PROJET: /media/houssou/audrey-roch1/Bibind_marcketplace
+ANSIBLE_CONNECTION_PATH: /media/houssou/audrey-roch1/Bibind
