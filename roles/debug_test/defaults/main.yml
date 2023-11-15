@@ -1,0 +1,8 @@
+---
+# defaults file for debug_test
+### Rancher Cluster Settings
+# General Rancher Settings
+rancher_hostname: "mybibindrancher.local"
+rancher_admin_password: "secret44"
+rancher_admin_initial_password: "admin1234"
+rancher_telemetry: out

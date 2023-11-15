@@ -1,0 +1,7 @@
+---
+- name: playbook to debug group host
+  hosts: localhost
+  roles:
+    - role: debug_test
+      vars:
+        - PROJET: "Bibind"
