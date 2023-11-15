@@ -7,5 +7,5 @@
 #- import_playbook: prepare_rancher_nodes.yml
 #- import_playbook: deploy_rancher.yml
 - import_playbook: create_hosts_cluster.yml
-- import_playbook: prepare_k8s_nodes.yml
-- import_playbook: deploy_k8s_cluster.yml
+#- import_playbook: prepare_k8s_nodes.yml
+#- import_playbook: deploy_k8s_cluster.yml
