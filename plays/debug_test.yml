@@ -1,6 +1,6 @@
 ---
 - name: playbook to debug group host
-  hosts: localhost
+  hosts: 192.168.1.19
   roles:
     - role: debug_test
       vars:
