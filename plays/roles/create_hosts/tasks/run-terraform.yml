@@ -23,7 +23,7 @@
   register: terraform_rancher_status
 
 - name: apply terraform code
-  terraform:
+  cloud.terraform.terraform:
     project_path: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/terraform/marcketplace/plateforme/provider/vagrant/Bibind/rancher/"
     state: present
     force_init: true
