@@ -1,0 +1,8 @@
+---
+- name: playbook to create hoste via terraform
+  hosts: 192.168.1.19
+  roles:
+    - role: debug_test
+      vars:
+        - PROJET: "Bibind"
+
