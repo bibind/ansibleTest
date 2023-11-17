@@ -1,5 +1,5 @@
-ansible_user: vagrant
+ansible_user: houssou
 PROJET: Bibind
-PATH_REPERTOIR_PLATEFORM: /media/houssou/audrey-roch1
-PATH_REPERTOIR_PROJET: /media/houssou/audrey-roch1/Bibind_marcketplace
+PATH_REPERTOIR_PLATEFORM: /media/houssou/audrey-roch
+PATH_REPERTOIR_PROJET: /media/houssou/audrey-roch/Bibind_marcketplace
 ANSIBLE_CONNECTION_PATH: /media/houssou/audrey-roch1/Bibind
