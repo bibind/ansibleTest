@@ -1,0 +1,36 @@
+
+- name: debug
+  ansible.builtin.debug:
+    msg: "hello debug {{path_terraform}}"
+    verbosity: 0
+
+- name: vérifie si le répertoire  projet existe
+  stat:
+    path: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/"
+  register: terraform_status
+
+
+- name: Move template terraform
+  copy:
+    src: "templates/terraform"
+    dest: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/"
+    mode: 0755
+  changed_when: false
+
+- name: vérifie si le répertoire  projet existe
+  stat:
+    path: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/terraform/marcketplace/plateforme/provider/vagrant/Bibind/rancher"
+  register: terraform_rancher_status
+
+- name: apply terraform code
+  cloud.terraform.terraform:
+    project_path: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/terraform/marcketplace/plateforme/provider/vagrant/Bibind/rancher/"
+    state: present
+    force_init: true
+  register: terraform
+  environment:
+    TF_VAR_amount: 3
+  when:
+  - not ansible_check_mode
+  - terraform_rancher_status.stat.exists
+

@@ -1,0 +1,21 @@
+- name: task for OS debian
+  ansible.builtin.debug:
+    msg: "hello debug OS {{vars}}"
+    verbosity: 0
+
+- name: shell
+  shell: |
+    pwd
+
+  register: fileout
+  tags: fileout
+
+- debug: msg="{{ fileout.stdout_lines }}"
+
+
+#- name: Move template terraform
+#  copy:
+#    src: "templates/terraform"
+#    dest: "{{ PATH_REPERTOIR_PLATEFORM }}/{{ PROJET }}/"
+#    mode: 0755
+#  changed_when: false

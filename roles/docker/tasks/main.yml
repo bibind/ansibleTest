@@ -1,0 +1,12 @@
+---
+    
+- name: basic docker setup for debian
+  include_tasks: docker_setup.yml
+  when: ansible_os_family == 'Debian'
+
+- name: basic docker setup for REDHAT
+  include_tasks: docker_redhat_setup.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: add pulic key in authorised_key file
+  include_tasks: add_pubkey.yml

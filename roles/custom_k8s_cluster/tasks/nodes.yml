@@ -1,0 +1,58 @@
+---
+- name: Get current nodes from Rancher Control Plane
+  uri:
+    url: "{{ custom_k8s_cluster_rancher_api }}/clusters/{{ cluster.id }}/nodes"
+    validate_certs: "{{ custom_k8s_cluster_verify_ssl }}"
+    return_content: yes
+    headers:
+      Authorization: "Bearer {{ custom_k8s_cluster_api_key }}"
+  register: cluster_nodes
+  check_mode: no
+
+- name: Show already added nodes
+  debug:
+    msg: "{{ cluster_nodes | json_query(\"json.data[*].hostname\") }}"
+
+- name: Show nodes which are going to be added
+  debug:
+    msg: "{{ hostvars[item]['ansible_facts']['hostname'] }}{{ '.' if hostvars[item]['ansible_facts']['domain'] else '' }}{{ hostvars[item]['ansible_facts']['domain'] }}"
+  when:
+    - (cluster_nodes | json_query("json.data[?hostname == '" + hostvars[item]['ansible_facts']['hostname'] + ("." + hostvars[item]['ansible_facts']['domain'] if hostvars[item]['ansible_facts']['domain'] and custom_k8s_cluster_use_fqdn_nodename else "") +"']") | length) == 0
+  with_items:
+    - "{{ groups[custom_k8s_cluster_group_inventory_name] }}"
+
+- name: Show nodes MASTER which are going to be added
+  debug:
+    msg: "{{ hostvars[item]['ansible_facts']['hostname'] }}{{ '.' if hostvars[item]['ansible_facts']['domain'] else '' }}{{ hostvars[item]['ansible_facts']['domain'] }}"
+  when:
+    - (cluster_nodes | json_query("json.data[?hostname == '" + hostvars[item]['ansible_facts']['hostname'] + ("." + hostvars[item]['ansible_facts']['domain'] if hostvars[item]['ansible_facts']['domain'] and custom_k8s_cluster_use_fqdn_nodename else "") +"']") | length) == 0
+  with_items:
+    - "{{ groups['mycluster_master'] }}"
+
+- name: Show nodes WORKER which are going to be added
+  debug:
+    msg: "{{ hostvars[item]['ansible_facts']['hostname'] }}{{ '.' if hostvars[item]['ansible_facts']['domain'] else '' }}{{ hostvars[item]['ansible_facts']['domain'] }}"
+  when:
+    - (cluster_nodes | json_query("json.data[?hostname == '" + hostvars[item]['ansible_facts']['hostname'] + ("." + hostvars[item]['ansible_facts']['domain'] if hostvars[item]['ansible_facts']['domain'] and custom_k8s_cluster_use_fqdn_nodename else "") +"']") | length) == 0
+  with_items:
+    - "{{ groups['mycluster_worker'] }}"
+
+- name: Add Nodes MASTER when not already added
+  delegate_to: "{{ item }}"
+  become: true
+  command: "{{ custom_k8s_cluster_docker_commmand_base }} {{ custom_k8s_cluster_ca_checksum_param }} {{ clustercachecksum | default('') }} --token {{ clusterregistrationtoken }}  --address {{ hostvars[item]['ansible_' + custom_k8s_cluster_ingress_node_internal_iface]['ipv4']['address'] }} --internal-address {{ hostvars[item]['ansible_' + custom_k8s_cluster_ingress_node_internal_iface]['ipv4']['address'] }} {% for label in hostvars[item]['k8s_labels'] %} --label {{ label.name }}={{ label.value }}{% endfor %}{% for role in hostvars[item]['k8s_roles'] %} --{{ role }}{% endfor %}"
+  when:
+    - (cluster_nodes | json_query("json.data[?hostname == '" + hostvars[item]['ansible_facts']['hostname'] + ("." + hostvars[item]['ansible_facts']['domain'] if hostvars[item]['ansible_facts']['domain'] and custom_k8s_cluster_use_fqdn_nodename else "") +"']") | length) == 0
+  with_items:
+    - "{{ groups['mycluster_master'] }}"
+  ignore_errors: yes
+
+- name: Add Nodes when WORKER not already added
+  delegate_to: "{{ item }}"
+  become: true
+  command: "{{ custom_k8s_cluster_docker_commmand_base }} {{ custom_k8s_cluster_ca_checksum_param }} {{ clustercachecksum | default('') }} --token {{ clusterregistrationtoken }}   --address {{ hostvars[item]['ansible_' + custom_k8s_cluster_ingress_node_internal_iface]['ipv4']['address'] }} --internal-address {{ hostvars[item]['ansible_' + custom_k8s_cluster_ingress_node_internal_iface]['ipv4']['address'] }}  {% for label in hostvars[item]['k8s_labels'] %} --label {{ label.name }}={{ label.value }}{% endfor %}{% for role in hostvars[item]['k8s_roles'] %} --{{ role }}{% endfor %}"
+  when:
+    - (cluster_nodes | json_query("json.data[?hostname == '" + hostvars[item]['ansible_facts']['hostname'] + ("." + hostvars[item]['ansible_facts']['domain'] if hostvars[item]['ansible_facts']['domain'] and custom_k8s_cluster_use_fqdn_nodename else "") +"']") | length) == 0
+  with_items:
+    - "{{ groups['mycluster_worker'] }}"
+  ignore_errors: yes

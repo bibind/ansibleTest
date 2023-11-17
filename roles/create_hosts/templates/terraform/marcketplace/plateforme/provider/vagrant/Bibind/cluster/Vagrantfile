@@ -1,0 +1,68 @@
+
+Vagrant.configure("2") do |config|
+    common = <<-'SHELL'
+      if  grep -q master /etc/hosts; then sudo sed -i '1s/^/192.168.56.7\tmaster\n/' /etc/hosts ;fi
+      if  grep -q worker01 /etc/hosts; then sudo sed -i '1s/^/192.168.56.8\tworker01\n/' /etc/hosts ;fi
+      if  grep -q worker02 /etc/hosts; then sudo sed -i '1s/^/192.168.56.9\tworker02\n/' /etc/hosts ;fi
+      if ! grep -q master /etc/hosts; then  sudo echo "192.168.56.7     master" >> /etc/hosts ;fi
+      if ! grep -q worker01 /etc/hosts; then  sudo echo "192.168.56.8     worker01" >> /etc/hosts ;fi
+      if ! grep -q worker02 /etc/hosts; then  sudo echo "192.168.56.9     worker02" >> /etc/hosts ;fi
+      sudo echo "192.168.56.4     mybibindrancher.local" >> /etc/hosts
+      sudo echo "192.168.56.5     mybibindrancher.local" >> /etc/hosts
+      sudo echo "192.168.56.6     mybibindrancher.local" >> /etc/hosts
+      SHELL
+
+  # This will be applied to every vagrant file that comes after it
+  config.vm.box = "ubuntu/bionic64"
+  config.ssh.insert_key = false
+
+  ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+  config.vm.provision 'shell', inline: 'mkdir -p /root/.ssh'
+  config.vm.provision 'shell', inline: 'touch  /root/.ssh/authorized_keys'
+  config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /root/.ssh/authorized_keys"
+  config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys"
+  config.vm.provision 'shell', inline: 'sudo systemctl reload sshd.service', privileged: false
+
+  # K8s Control Plane
+  ## Master Node
+  config.vm.define "master" do |k8s_master|
+     k8s_master.vm.provision "shell", inline: common
+
+     k8s_master.vm.network "private_network", ip: "192.168.56.7"
+     k8s_master.vm.hostname = "master"
+     k8s_master.vm.provider "virtualbox" do |v|
+       v.customize ["modifyvm", :id, "--audio", "none"]
+       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+       v.memory = 4024
+       v.cpus = 2
+    end
+  end
+
+  config.vm.define "worker01" do |k8s_worker|
+       k8s_worker.vm.provision "shell", inline: common
+       k8s_worker.vm.network "private_network", ip: "192.168.56.8"
+       k8s_worker.vm.hostname = "worker01"
+       k8s_worker.vm.provider "virtualbox" do |v|
+         v.customize ["modifyvm", :id, "--audio", "none"]
+         v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+         v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+         v.memory = 4024
+         v.cpus = 2
+      end
+    end
+
+    config.vm.define "worker02" do |k8s_worker|
+         k8s_worker.vm.provision "shell", inline: common
+         k8s_worker.vm.network "private_network", ip: "192.168.56.9"
+         k8s_worker.vm.hostname = "worker02"
+         k8s_worker.vm.provider "virtualbox" do |v|
+           v.customize ["modifyvm", :id, "--audio", "none"]
+           v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+           v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+           v.memory = 4024
+           v.cpus = 2
+        end
+      end
+
+end

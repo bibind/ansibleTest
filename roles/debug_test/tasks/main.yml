@@ -1,0 +1,11 @@
+---
+# tasks file for debug_test
+
+
+- name: get ansible os
+  include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: get ansible os redhat
+  include_tasks: redhat.yml
+  when: ansible_os_family == 'RedHat'

@@ -1,0 +1,4 @@
+- name: task for OS redhat
+  ansible.builtin.debug:
+    msg: "hello debug OS REDHAT {{ansible_os_family}}"
+    verbosity: 0
