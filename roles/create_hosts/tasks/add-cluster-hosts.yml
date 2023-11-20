@@ -20,6 +20,7 @@
 
 - name: export the inventory
   shell: |
+    pwd
     ansible-inventory list --export --output inventory/host.json
   register: inventory_result
 
