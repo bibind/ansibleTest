@@ -21,6 +21,8 @@
 - name: export the inventory
   remote_user: houssou
   shell: |
+    su houssou
+    
     cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
     
     ansible-inventory --list --export --output inventory/host.json
