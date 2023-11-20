@@ -6,6 +6,8 @@
 - name: shell
   shell: |
     pwd
+    ansible --version
+    
     ansible-inventory --list
   register: fileout
   tags: fileout
