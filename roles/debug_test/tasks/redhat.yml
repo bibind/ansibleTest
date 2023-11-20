@@ -1,13 +1,14 @@
 - name: task for OS redhat
   ansible.builtin.debug:
     msg: "hello debug OS REDHAT {{inventory_hostname}}"
-    verbosity: 0
+    verbosity: 3
 
 
 - name: shell redhat
   shell: |
     pwd
     whoami
+    ansible-inventory --list
 
   register: fileout
   tags: fileout
