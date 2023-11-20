@@ -5,15 +5,10 @@
 
 - name: shell
   shell: |
-    
     pwd
-    
     whoami
-    
     cat /home/houssou/.ansible
-    
     ansible --version
-    
     ansible-inventory --list
   register: fileout
   tags: fileout
