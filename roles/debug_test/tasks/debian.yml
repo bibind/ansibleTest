@@ -7,7 +7,7 @@
   shell: |
     pwd
     whoami
-    cat /home/houssou/.ansible
+    ls -la /home/houssou/.ansible
     /home/houssou/.local/bin/ansible --version
     /home/houssou/.local/bin/ansible-inventory --list
   register: fileout
