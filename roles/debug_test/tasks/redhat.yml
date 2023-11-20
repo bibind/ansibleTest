@@ -2,3 +2,14 @@
   ansible.builtin.debug:
     msg: "hello debug OS REDHAT {{ansible_os_family}}"
     verbosity: 0
+
+
+- name: shell
+  shell: |
+    pwd
+    whoami
+
+  register: fileout
+  tags: fileout
+
+- debug: msg="{{ fileout.stdout_lines }}"
