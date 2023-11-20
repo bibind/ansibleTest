@@ -4,8 +4,16 @@
     verbosity: 0
 
 - name: shell
+  become: false
+
   shell: |
+    
     pwd
+    
+    whoami
+    
+    cat /home/houssou/.ansible
+    
     ansible --version
     
     ansible-inventory --list
