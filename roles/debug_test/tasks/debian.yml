@@ -7,8 +7,7 @@
   shell: |
     pwd
     whoami
-    ls -la /home/houssou/.ansible
-    /home/houssou/.local/bin/ansible --version
+    cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
     /home/houssou/.local/bin/ansible-inventory --list
   register: fileout
   tags: fileout
