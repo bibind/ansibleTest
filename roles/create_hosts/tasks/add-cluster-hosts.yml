@@ -19,10 +19,8 @@
   when: not ansible_check_mode
 
 - name: export the inventory
-  remote_user: houssou
+  become: false
   shell: |
-    su houssou
-    
     cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
     
     ansible-inventory --list --export --output inventory/host.json
