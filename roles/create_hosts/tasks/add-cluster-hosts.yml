@@ -20,7 +20,7 @@
 
 - name: export the inventory
   become: false
-  sudo: false
+  become_user: houssou
   shell: |
     cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
     
