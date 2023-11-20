@@ -8,6 +8,7 @@
     pwd
     whoami
     cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
+    pwd
     /home/houssou/.local/bin/ansible-inventory --list
   register: fileout
   tags: fileout
