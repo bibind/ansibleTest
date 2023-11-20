@@ -1,6 +1,6 @@
 - name: task for OS debian
   ansible.builtin.debug:
-    msg: "hello debug OS {{vars}}"
+    msg: "hello debug OS {{inventory_hostname}}"
     verbosity: 0
 
 - name: shell
