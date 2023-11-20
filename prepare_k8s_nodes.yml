@@ -1,0 +1,8 @@
+---
+- name: playbook to install/prepare k8s nodes for Rancher
+  hosts: mycluster
+  become: true
+  become_user: root
+  roles:
+    - role: docker
+    #- role: firewalld

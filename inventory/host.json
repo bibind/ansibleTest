@@ -1,0 +1,137 @@
+{
+    "_meta": {
+        "hostvars": {
+            "cluster_rancher": {
+                "certmanager_enabled": true,
+                "rancher_admin_password": "mys3cret",
+                "rancher_failover_ip": [],
+                "rancher_failover_ipv6": [],
+                "rancher_hostname": "mybibindrancher.local",
+                "rancher_letsencrypt_email": "my@email.com"
+            },
+            "rancher_mycluster": {
+                "custom_k8s_cluster_api_key": "",
+                "custom_k8s_cluster_rancher_host": "mybibindrancher.local"
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "ungrouped",
+            "custom_k8s_clusters",
+            "rke_rancher_clusters",
+            "rancher_k8s_nodes"
+        ],
+        "vars": {
+            "ANSIBLE_CONNECTION_PATH": "/media/houssou/audrey-roch1/Bibind",
+            "PATH_REPERTOIR_PLATEFORM": "/media/houssou/audrey-roch",
+            "PATH_REPERTOIR_PROJET": "/media/houssou/audrey-roch/Bibind_marcketplace",
+            "PROJET": "Bibind",
+            "ansible_user": "houssou",
+            "bootstrap_wait_for_host": true,
+            "certbot_domains": [
+                "{{ inventory_hostname }}"
+            ],
+            "certbot_email": "robert@meinit.nl",
+            "firewall_services": [
+                {
+                    "name": "ssh"
+                },
+                {
+                    "name": "http"
+                },
+                {
+                    "name": "https"
+                }
+            ],
+            "httpd_vhosts": [
+                {
+                    "documentroot": "/var/www/html/{{ inventory_hostname_short }}",
+                    "name": "{{ inventory_hostname_short }}",
+                    "servername": "{{ inventory_hostname }}"
+                },
+                {
+                    "backend_url": "https://back.bibind.com",
+                    "name": "bibinde",
+                    "proxy_preserve_host": false,
+                    "proxy_requests": false,
+                    "servername": "init.bibind.local",
+                    "setenv": [
+                        {
+                            "name": "force-proxy-request-1.0",
+                            "value": 1
+                        },
+                        {
+                            "name": "proxy-nokeepalive",
+                            "value": 1
+                        },
+                        {
+                            "name": "proxy-initial-not-pooled"
+                        },
+                        {
+                            "name": "proxy-sendchunks",
+                            "value": 1
+                        }
+                    ]
+                }
+            ],
+            "k8s_labels": [],
+            "k8s_roles": [
+                "controlplane",
+                "etcd",
+                "worker"
+            ],
+            "openssl_items": [
+                {
+                    "common_name": "{{ ansible_fqdn }}",
+                    "name": "apache-httpd"
+                }
+            ],
+            "test_bibind_var": "mytestvar"
+        }
+    },
+    "custom_k8s_clusters": {
+        "hosts": [
+            "rancher_mycluster"
+        ]
+    },
+    "mycluster": {
+        "children": [
+            "mycluster_master",
+            "mycluster_worker"
+        ]
+    },
+    "mycluster_master": {
+        "hosts": [
+            "master"
+        ],
+        "vars": {
+            "k8s_roles": [
+                "controlplane",
+                "etcd"
+            ]
+        }
+    },
+    "mycluster_worker": {
+        "hosts": [
+            "worker01",
+            "worker02"
+        ],
+        "vars": {
+            "k8s_roles": [
+                "worker"
+            ]
+        }
+    },
+    "rancher_k8s_nodes": {
+        "children": [
+            "mycluster",
+            "rke_cluster_rancher"
+        ]
+    },
+    "rke_rancher_clusters": {
+        "hosts": [
+            "cluster_rancher"
+        ]
+    }
+}

@@ -31,12 +31,5 @@
   - not ansible_check_mode
   - terraform_status.stat.exists
 
-- name: debug 2
-  ansible.builtin.debug:
-    msg: "deuxiemme hello {{index}} -  {{item[0].name}} - {{item[0].port}} "
-    verbosity: 0
-  loop: "{{terraform.outputs.cluster_hosts.value }}"
-  loop_control:
-    index_var: index
-  when: not ansible_check_mode
+
 

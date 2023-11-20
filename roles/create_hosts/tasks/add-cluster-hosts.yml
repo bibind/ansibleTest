@@ -18,11 +18,13 @@
   loop: "{{terraform.outputs.cluster_hosts.value}}"
   when: not ansible_check_mode
 
+- name: export the inventory
+  shell: |
+    ansible-inventory list --export --output inventory/host.json
+  register: inventory_result
 
-
-
-- name: debug
+- name: debug retour export
   ansible.builtin.debug:
-    msg: "hello debug {{hostvars[item[0].name]}}"
+    msg: "debug inventory result : {{inventory_result}}"
     verbosity: 0
-  loop: "{{terraform.outputs.cluster_hosts.value}}"
+
