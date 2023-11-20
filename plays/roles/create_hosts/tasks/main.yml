@@ -1,26 +1,26 @@
 ---
 
 - name: create machines pour RKE RANCHER
-  delegate_to: 192.168.1.20
+  delegate_to: 192.168.175.120
   import_tasks: run-terraform.yml
   when:
     - not cluster
 
 - name: Ajoute les nodes à inventory pour
-  delegate_to: 192.168.1.20
+  delegate_to: 192.168.175.120
   import_tasks: add-hosts.yml
   when:
     - not cluster
 
 - name: create terraform vagrant plateforme
-  delegate_to: 192.168.1.20
+  delegate_to: 192.168.175.120
   import_tasks: run-cluster-terraform.yml
   when:
     - cluster
 
 
 - name: add cluster host to inventory and créate groupes
-  delegate_to: 192.168.1.20
+  delegate_to: 192.168.175.120
   import_tasks: add-cluster-hosts.yml
   when:
     - cluster

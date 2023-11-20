@@ -1,6 +1,6 @@
 ---
 - name: playbook to create hoste via terraform
-  hosts: 192.168.1.20
+  hosts: 192.168.175.120
   roles:
     - role: create_hosts
       vars:
