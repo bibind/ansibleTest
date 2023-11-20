@@ -7,9 +7,7 @@
   shell: |
     pwd
     whoami
-    cd /media/houssou/audrey-roch/Bibind/ansibleTest/
-    pwd
-    /home/houssou/.local/bin/ansible-inventory --list
+
   register: fileout
   tags: fileout
 

@@ -1,6 +1,6 @@
 ---
 - name: playbook to create host via terraform
-  hosts: 192.168.175.120
+  hosts: localhost
   gather_facts: yes
   roles:
     - role: debug_test
