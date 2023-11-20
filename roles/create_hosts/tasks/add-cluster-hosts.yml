@@ -20,8 +20,9 @@
 
 - name: export the inventory
   shell: |
-    pwd
-    ansible-inventory list --export --output inventory/host.json
+    cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
+    
+    ansible-inventory --list --export --output inventory/host.json
   register: inventory_result
 
 - name: debug retour export
