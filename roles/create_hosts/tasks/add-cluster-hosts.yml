@@ -19,10 +19,14 @@
   when: not ansible_check_mode
 
 - name: export the inventory
-  become: false
+  become: yes
   become_user: houssou
   shell: |
     cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
+    
+    pwd
+    
+    whoami
     
     ansible-inventory --list --export --output inventory/host.json
   register: inventory_result
