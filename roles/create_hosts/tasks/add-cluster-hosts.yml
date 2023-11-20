@@ -29,6 +29,7 @@
     whoami
     
     ansible-inventory --list --export --output inventory/host.json
+
   register: inventory_result
 
 - name: debug retour export

@@ -1,9 +1,8 @@
 ---
 - name: playbook to create host via terraform
   hosts: 192.168.175.120
-  become: yes
   roles:
-    - role: create_hosts
+    - role: debug_test
       vars:
         - cluster: true
 
