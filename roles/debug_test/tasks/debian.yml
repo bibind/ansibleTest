@@ -4,8 +4,6 @@
     verbosity: 0
 
 - name: shell
-  become: false
-
   shell: |
     
     pwd
