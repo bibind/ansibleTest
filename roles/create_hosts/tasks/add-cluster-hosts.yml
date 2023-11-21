@@ -34,22 +34,36 @@
 
 - name: Add host in ini file
   delegate_to: localhost
-  community.general.ini_file:
-    path: ./inventory/hosts
-    section: mycluster_master
-    option: master
-    value: ansible_ssh_host=192.168.56.7  juice
-    mode: '0600'
-    state: present
-    exclusive: false
-
+  shell: |
+    pwd
+    cd ./inventory/
+    pwd
+  register: test
 
 - name: debug retour inventory_hostname
   ansible.builtin.debug:
-    msg: "debug inventory result : {{inventory_hostname}}"
+    msg: "debug inventory result : {{test}}"
     verbosity: 3
 
-- name: debug retour export
-  ansible.builtin.debug:
-    msg: "debug inventory result : {{hostvars}}"
-    verbosity: 3
+#
+#- name: Add host in ini file
+#  delegate_to: localhost
+#  community.general.ini_file:
+#    path: ./inventory/hosts
+#    section: mycluster_master
+#    option: master
+#    value: ansible_ssh_host=192.168.56.7  juice
+#    mode: '0600'
+#    state: present
+#    exclusive: false
+#
+#
+#- name: debug retour inventory_hostname
+#  ansible.builtin.debug:
+#    msg: "debug inventory result : {{inventory_hostname}}"
+#    verbosity: 3
+#
+#- name: debug retour export
+#  ansible.builtin.debug:
+#    msg: "debug inventory result : {{hostvars}}"
+#    verbosity: 3
