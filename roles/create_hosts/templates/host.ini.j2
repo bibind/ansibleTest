@@ -1,0 +1,5 @@
+{% for host in (host_groups | map('extract', groups) | flatten | unique) %}
+{% if hostvars[host].ipv4_public is defined %}
+add {{ ipset_name }} {{ hostvars[host].ipv4_public }}
+{% endif %}
+add {{ ipset_name }} {{ hostvars[host].ansible_host }}
