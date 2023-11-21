@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: yes
   roles:
-    - role: create_host
+    - roles: create_hosts
       vars:
         - cluster: true
 
