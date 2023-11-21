@@ -48,17 +48,18 @@
     msg: "debug inventory result : {{test}}"
     verbosity: 3
 
-#
-#- name: Add host in ini file
-#  delegate_to: localhost
-#  community.general.ini_file:
-#    path: ./inventory/hosts
-#    section: mycluster_master
-#    option: master
-#    value: ansible_ssh_host=192.168.56.7  juice
-#    mode: '0600'
-#    state: present
-#    exclusive: false
+
+- name: Add host in ini file
+  delegate_to: localhost
+  become: false
+  community.general.ini_file:
+    path: ./inventory/hosts
+    section: mycluster_master
+    option: master
+    value: ansible_ssh_host=192.168.56.7  juice
+    mode: '0600'
+    state: present
+    exclusive: false
 #
 #
 #- name: debug retour inventory_hostname
