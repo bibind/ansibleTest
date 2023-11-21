@@ -60,12 +60,20 @@
     mode: '0600'
     state: present
     exclusive: false
-#
-#
-#- name: debug retour inventory_hostname
-#  ansible.builtin.debug:
-#    msg: "debug inventory result : {{inventory_hostname}}"
-#    verbosity: 3
+
+- name: get ini file
+  delegate_to: localhost
+  become: false
+  shell: |
+    cat ./inventory/hosts
+  register: hosts_result
+
+
+
+- name: debug retour inventory_hostname
+  ansible.builtin.debug:
+    msg: "debug inventory result : {{hosts_result}}"
+    verbosity: 3
 #
 #- name: debug retour export
 #  ansible.builtin.debug:
