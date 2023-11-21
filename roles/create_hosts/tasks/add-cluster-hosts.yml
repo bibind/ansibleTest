@@ -18,22 +18,31 @@
   loop: "{{terraform.outputs.cluster_hosts.value}}"
   when: not ansible_check_mode
 
-- name: export the inventory
-  become: yes
-  become_user: houssou
-  shell: |
-    cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
-    
-    pwd
-    
-    whoami
-    
-    ansible-inventory --list --export --output inventory/host.json
+#- name: export the inventory
+#  become: yes
+#  become_user: houssou
+#  shell: |
+#    cd /media/houssou/audrey-roch/Bibind/terraform/marcketplace/plateforme/provider/vagrant/Bibind/cluster
+#
+#    pwd
+#
+#    whoami
+#
+#    ansible-inventory --list --export --output inventory/host.json
+#
+#  register: inventory_result
 
-  register: inventory_result
+- name: debug retour all
+  ansible.builtin.debug:
+    msg: "debug inventory result : {{all}}"
+    verbosity: 3
+
+- name: debug retour inventory_hostname
+  ansible.builtin.debug:
+    msg: "debug inventory result : {{inventory_hostname}}"
+    verbosity: 3
 
 - name: debug retour export
   ansible.builtin.debug:
-    msg: "debug inventory result : {{inventory_result}}"
-    verbosity: 0
-
+    msg: "debug inventory result : {{hostvars}}"
+    verbosity: 3
