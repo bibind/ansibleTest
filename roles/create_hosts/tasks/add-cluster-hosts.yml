@@ -34,6 +34,7 @@
 
 - name: Add host in ini file
   delegate_to: localhost
+  become: false
   shell: |
     pwd
     cd ./inventory/
@@ -41,6 +42,8 @@
   register: test
 
 - name: debug retour inventory_hostname
+  delegate_to: localhost
+  become: false
   ansible.builtin.debug:
     msg: "debug inventory result : {{test}}"
     verbosity: 3
