@@ -36,13 +36,13 @@
   delegate_to: localhost
   community.general.ini_file:
     path: ./inventory/hosts
-    section: 'mycluster_{{item[0].group}}'
-    option: '{{item[0].name}}'
-    value: 'ansible_ssh_host={{item[0].hostname}} ansible_ssh_host={{item[0].hostname}} juice'
+    section: mycluster_master
+    option: master
+    value: ansible_ssh_host=192.168.56.7  juice
     mode: '0600'
     state: present
     exclusive: false
-  loop: "{{terraform.outputs.cluster_hosts.value}}"
+
 
 - name: debug retour inventory_hostname
   ansible.builtin.debug:
