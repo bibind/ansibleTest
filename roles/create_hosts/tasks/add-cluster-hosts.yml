@@ -32,10 +32,10 @@
 #
 #  register: inventory_result
 
-- name: Add "beverage=lemon juice" is in section "[drinks]" in specified file
+- name: Add host in ini file
   delegate_to: localhost
   community.general.ini_file:
-    path: inventory/hosts
+    path: ./inventory/hosts
     section: 'mycluster_{{item[0].group}}'
     option: '{{item[0].name}}'
     value: 'ansible_ssh_host={{item[0].hostname}} ansible_ssh_host={{item[0].hostname}} juice'
