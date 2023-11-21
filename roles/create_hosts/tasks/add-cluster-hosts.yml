@@ -54,12 +54,14 @@
   become: false
   community.general.ini_file:
     path: ./inventory/hosts
-    section: mycluster_master
-    option: master
-    value: ansible_ssh_host=192.168.56.7  juice
+    allow_no_value: true
+    section: mycluster_{{item[0].group}}
+    option: {{item[0].name}}
+    value: ansible_ssh_host={{item[0].hostname}}  juice
     mode: '0600'
     state: present
     exclusive: false
+  loop: "{{terraform.outputs.cluster_hosts.value}}"
 
 - name: get ini file
   delegate_to: localhost
@@ -74,6 +76,19 @@
   ansible.builtin.debug:
     msg: "debug inventory result : {{hosts_result}}"
     verbosity: 3
+
+
+- name: Add host in ini file item
+  delegate_to: localhost
+  become: false
+  community.general.ini_file:
+    path: ./inventory/hosts
+    section: mycluster_master
+    option: master
+    value: ansible_ssh_host=192.168.56.7  juice
+    mode: '0600'
+    state: present
+    exclusive: false
 #
 #- name: debug retour export
 #  ansible.builtin.debug:
