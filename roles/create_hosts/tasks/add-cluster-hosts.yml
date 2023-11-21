@@ -32,10 +32,17 @@
 #
 #  register: inventory_result
 
-- name: debug retour all
-  ansible.builtin.debug:
-    msg: "debug inventory result : {{all}}"
-    verbosity: 3
+- name: Add "beverage=lemon juice" is in section "[drinks]" in specified file
+  delegate_to: localhost
+  community.general.ini_file:
+    path: inventory/hosts
+    section: mycluster_{{item[0].group}}
+    option: {{item[0].name}}
+    value: ansible_ssh_host={{item[0].hostname}} ansible_ssh_host={{item[0].hostname}} juice
+    mode: '0600'
+    state: present
+    exclusive: false
+  loop: "{{terraform.outputs.cluster_hosts.value}}"
 
 - name: debug retour inventory_hostname
   ansible.builtin.debug:
